@@ -43,23 +43,17 @@ namespace TelemetriePITA
 			this.comboSF = new System.Windows.Forms.ComboBox();
 			this.labelSF = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.removeFrame = new System.Windows.Forms.Button();
+			this.addFrame = new System.Windows.Forms.Button();
+			this.flpFrame = new System.Windows.Forms.FlowLayoutPanel();
+			this.removeData = new System.Windows.Forms.Button();
 			this.label12 = new System.Windows.Forms.Label();
 			this.labelFrameRate = new System.Windows.Forms.Label();
-			this.comboSepar = new System.Windows.Forms.ComboBox();
-			this.label9 = new System.Windows.Forms.Label();
-			this.timeMax = new System.Windows.Forms.DateTimePicker();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.flpData = new System.Windows.Forms.FlowLayoutPanel();
 			this.labelFrameSize = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
-			this.addItem = new System.Windows.Forms.Button();
-			this.comboTime = new System.Windows.Forms.ComboBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.comboGPS = new System.Windows.Forms.ComboBox();
-			this.label6 = new System.Windows.Forms.Label();
+			this.addData = new System.Windows.Forms.Button();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.labelEIRP = new System.Windows.Forms.Label();
 			this.labelERP = new System.Windows.Forms.Label();
@@ -240,43 +234,65 @@ namespace TelemetriePITA
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.button1);
+			this.groupBox2.Controls.Add(this.removeFrame);
+			this.groupBox2.Controls.Add(this.addFrame);
+			this.groupBox2.Controls.Add(this.flpFrame);
+			this.groupBox2.Controls.Add(this.removeData);
 			this.groupBox2.Controls.Add(this.label12);
 			this.groupBox2.Controls.Add(this.labelFrameRate);
-			this.groupBox2.Controls.Add(this.comboSepar);
-			this.groupBox2.Controls.Add(this.label9);
-			this.groupBox2.Controls.Add(this.timeMax);
-			this.groupBox2.Controls.Add(this.label8);
-			this.groupBox2.Controls.Add(this.label7);
 			this.groupBox2.Controls.Add(this.groupBox3);
 			this.groupBox2.Controls.Add(this.labelFrameSize);
 			this.groupBox2.Controls.Add(this.label11);
-			this.groupBox2.Controls.Add(this.addItem);
-			this.groupBox2.Controls.Add(this.comboTime);
-			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Controls.Add(this.comboGPS);
-			this.groupBox2.Controls.Add(this.label6);
+			this.groupBox2.Controls.Add(this.addData);
 			this.groupBox2.Location = new System.Drawing.Point(12, 190);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(971, 396);
+			this.groupBox2.Size = new System.Drawing.Size(971, 401);
 			this.groupBox2.TabIndex = 11;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Parametre Trame";
 			// 
-			// button1
+			// removeFrame
 			// 
-			this.button1.Location = new System.Drawing.Point(125, 340);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(113, 23);
-			this.button1.TabIndex = 20;
-			this.button1.Text = "Retirer une donnée";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click_1);
+			this.removeFrame.Location = new System.Drawing.Point(125, 80);
+			this.removeFrame.Name = "removeFrame";
+			this.removeFrame.Size = new System.Drawing.Size(113, 23);
+			this.removeFrame.TabIndex = 23;
+			this.removeFrame.Text = "Retirer une trame";
+			this.removeFrame.UseVisualStyleBackColor = true;
+			this.removeFrame.Click += new System.EventHandler(this.removeFrame_Click);
+			// 
+			// addFrame
+			// 
+			this.addFrame.Location = new System.Drawing.Point(9, 80);
+			this.addFrame.Name = "addFrame";
+			this.addFrame.Size = new System.Drawing.Size(113, 23);
+			this.addFrame.TabIndex = 22;
+			this.addFrame.Text = "Ajouter une trame";
+			this.addFrame.UseVisualStyleBackColor = true;
+			this.addFrame.Click += new System.EventHandler(this.addFrame_Click);
+			// 
+			// flpFrame
+			// 
+			this.flpFrame.AutoScroll = true;
+			this.flpFrame.Location = new System.Drawing.Point(9, 19);
+			this.flpFrame.Name = "flpFrame";
+			this.flpFrame.Size = new System.Drawing.Size(950, 55);
+			this.flpFrame.TabIndex = 21;
+			// 
+			// removeData
+			// 
+			this.removeData.Location = new System.Drawing.Point(125, 348);
+			this.removeData.Name = "removeData";
+			this.removeData.Size = new System.Drawing.Size(113, 23);
+			this.removeData.TabIndex = 20;
+			this.removeData.Text = "Retirer une donnée";
+			this.removeData.UseVisualStyleBackColor = true;
+			this.removeData.Click += new System.EventHandler(this.button1_Click_1);
 			// 
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(282, 370);
+			this.label12.Location = new System.Drawing.Point(282, 378);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(70, 13);
 			this.label12.TabIndex = 19;
@@ -286,87 +302,35 @@ namespace TelemetriePITA
 			// 
 			this.labelFrameRate.AutoEllipsis = true;
 			this.labelFrameRate.AutoSize = true;
-			this.labelFrameRate.Location = new System.Drawing.Point(358, 370);
+			this.labelFrameRate.Location = new System.Drawing.Point(358, 378);
 			this.labelFrameRate.Name = "labelFrameRate";
 			this.labelFrameRate.Size = new System.Drawing.Size(142, 13);
 			this.labelFrameRate.TabIndex = 18;
 			this.labelFrameRate.Text = "0 par seconde (en moyenne)";
 			// 
-			// comboSepar
-			// 
-			this.comboSepar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboSepar.FormattingEnabled = true;
-			this.comboSepar.Items.AddRange(new object[] {
-            "aucun",
-            "début seulement",
-            "fin seulement",
-            "début et fin"});
-			this.comboSepar.Location = new System.Drawing.Point(91, 75);
-			this.comboSepar.Name = "comboSepar";
-			this.comboSepar.Size = new System.Drawing.Size(121, 21);
-			this.comboSepar.TabIndex = 17;
-			this.comboSepar.SelectedIndexChanged += new System.EventHandler(this.UpdateData);
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(12, 78);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(59, 13);
-			this.label9.TabIndex = 16;
-			this.label9.Text = "Séparateur";
-			// 
-			// timeMax
-			// 
-			this.timeMax.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-			this.timeMax.Location = new System.Drawing.Point(361, 50);
-			this.timeMax.Name = "timeMax";
-			this.timeMax.ShowUpDown = true;
-			this.timeMax.Size = new System.Drawing.Size(68, 20);
-			this.timeMax.TabIndex = 15;
-			this.timeMax.ValueChanged += new System.EventHandler(this.UpdateData);
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(291, 53);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(64, 13);
-			this.label8.TabIndex = 13;
-			this.label8.Text = "temps Max :";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(88, 53);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(55, 13);
-			this.label7.TabIndex = 12;
-			this.label7.Text = "précision :";
-			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.flowLayoutPanel1);
-			this.groupBox3.Location = new System.Drawing.Point(6, 101);
+			this.groupBox3.Controls.Add(this.flpData);
+			this.groupBox3.Location = new System.Drawing.Point(6, 109);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(959, 233);
 			this.groupBox3.TabIndex = 10;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Données à transmettre";
 			// 
-			// flowLayoutPanel1
+			// flpData
 			// 
-			this.flowLayoutPanel1.AutoScroll = true;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(9, 19);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(944, 208);
-			this.flowLayoutPanel1.TabIndex = 7;
+			this.flpData.AutoScroll = true;
+			this.flpData.Location = new System.Drawing.Point(9, 19);
+			this.flpData.Name = "flpData";
+			this.flpData.Size = new System.Drawing.Size(944, 208);
+			this.flpData.TabIndex = 7;
 			// 
 			// labelFrameSize
 			// 
 			this.labelFrameSize.AutoEllipsis = true;
 			this.labelFrameSize.AutoSize = true;
-			this.labelFrameSize.Location = new System.Drawing.Point(86, 370);
+			this.labelFrameSize.Location = new System.Drawing.Point(86, 378);
 			this.labelFrameSize.Name = "labelFrameSize";
 			this.labelFrameSize.Size = new System.Drawing.Size(32, 13);
 			this.labelFrameSize.TabIndex = 9;
@@ -375,71 +339,21 @@ namespace TelemetriePITA
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(6, 370);
+			this.label11.Location = new System.Drawing.Point(6, 378);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(74, 13);
 			this.label11.TabIndex = 8;
 			this.label11.Text = "Taille Trame : ";
 			// 
-			// addItem
+			// addData
 			// 
-			this.addItem.Location = new System.Drawing.Point(6, 340);
-			this.addItem.Name = "addItem";
-			this.addItem.Size = new System.Drawing.Size(113, 23);
-			this.addItem.TabIndex = 6;
-			this.addItem.Text = "Ajouter une donnée";
-			this.addItem.UseVisualStyleBackColor = true;
-			this.addItem.Click += new System.EventHandler(this.addItem_Click);
-			// 
-			// comboTime
-			// 
-			this.comboTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboTime.FormattingEnabled = true;
-			this.comboTime.Items.AddRange(new object[] {
-            "non",
-            "precision 1 sec",
-            "precision 0.1 sec",
-            "precision 0.01 sec",
-            "precision 0.001 sec"});
-			this.comboTime.Location = new System.Drawing.Point(149, 50);
-			this.comboTime.Name = "comboTime";
-			this.comboTime.Size = new System.Drawing.Size(121, 21);
-			this.comboTime.TabIndex = 3;
-			this.comboTime.SelectedValueChanged += new System.EventHandler(this.UpdateData);
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(12, 53);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(45, 13);
-			this.label5.TabIndex = 4;
-			this.label5.Text = "Temps :";
-			// 
-			// comboGPS
-			// 
-			this.comboGPS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboGPS.FormattingEnabled = true;
-			this.comboGPS.Items.AddRange(new object[] {
-            "aucun",
-            "1 trame sur 5",
-            "1 trame sur 3",
-            "chaque trame"});
-			this.comboGPS.Location = new System.Drawing.Point(89, 23);
-			this.comboGPS.Name = "comboGPS";
-			this.comboGPS.Size = new System.Drawing.Size(121, 21);
-			this.comboGPS.TabIndex = 0;
-			this.comboGPS.SelectedValueChanged += new System.EventHandler(this.UpdateData);
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(12, 26);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(29, 13);
-			this.label6.TabIndex = 1;
-			this.label6.Text = "GPS";
-			this.label6.Click += new System.EventHandler(this.label6_Click);
+			this.addData.Location = new System.Drawing.Point(6, 348);
+			this.addData.Name = "addData";
+			this.addData.Size = new System.Drawing.Size(113, 23);
+			this.addData.TabIndex = 6;
+			this.addData.Text = "Ajouter une donnée";
+			this.addData.UseVisualStyleBackColor = true;
+			this.addData.Click += new System.EventHandler(this.addItem_Click);
 			// 
 			// groupBox4
 			// 
@@ -613,7 +527,7 @@ namespace TelemetriePITA
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(995, 596);
+			this.ClientSize = new System.Drawing.Size(990, 599);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
@@ -647,25 +561,15 @@ namespace TelemetriePITA
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.ComboBox comboGPS;
-		private System.Windows.Forms.Label label6;
 		public System.Windows.Forms.ComboBox comboSF;
 		private System.Windows.Forms.Label labelSF;
 		public System.Windows.Forms.ComboBox comboCR;
 		private System.Windows.Forms.Label labelCR;
 		private System.Windows.Forms.Label labelDatarate;
-		private System.Windows.Forms.ComboBox comboTime;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Button addItem;
 		private System.Windows.Forms.Label labelFrameSize;
 		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.FlowLayoutPanel flpData;
 		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.DateTimePicker timeMax;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.ComboBox comboSepar;
-		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label labelFrameRate;
 		private System.Windows.Forms.GroupBox groupBox4;
@@ -685,6 +589,10 @@ namespace TelemetriePITA
 		private System.Windows.Forms.Label labelERP;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Label label18;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button removeFrame;
+		private System.Windows.Forms.Button addFrame;
+		private System.Windows.Forms.FlowLayoutPanel flpFrame;
+		private System.Windows.Forms.Button removeData;
+		private System.Windows.Forms.Button addData;
 	}
 }

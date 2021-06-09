@@ -122,6 +122,8 @@ namespace TelemetriePITA
 		List<TextBox> textDataOffsetList = new List<TextBox>();
 		List<CheckBox> checkBoxList = new List<CheckBox>();
 
+		List<ComboBox> comboBoxFrameList = new List<ComboBox>();
+
 		int frameSize = 0;
 		double frameRate = 0;
 		double dataRate = 0;
@@ -152,81 +154,100 @@ namespace TelemetriePITA
 
 
 
-
+		public int getDataSize()
+		{
+			int size = 0;
+			foreach (NumericUpDown num in numDataList)
+			{
+				size += (int)num.Value;
+			}
+			return size;
+		}
 
 		public int calculateFrameSize()
 		{
 			int size = 0;
-
-			
-			//GPS
-			if(comboGPS.SelectedIndex == 1)
+			int div = 0;
+			foreach(byte type in getPattern())
 			{
-				size += (64+16)/5;
+				if ((type & GPS) == 1)
+				{
+					size += 10*8;
+				}
+				//time since start (high res)
+				if ((type & TIME_SINCE_START) >> 1 == 1)
+				{
+					size += 16;//(int)Math.Ceiling((Math.Log10(60 * conf.getFactor()) / Math.Log10(2)));
+					
+				}
+				//full time
+				if ((type & UNIX_TIME) >> 2 == 1)
+				{
+					size += 22;
+				}
+				//data
+				if ((type & DATA) >> 3 == 1)
+				{
+					size += getDataSize();
+				}
+				div++;
 			}
-			else if(comboGPS.SelectedIndex == 2)
-			{
-				size += (64 + 16) / 3;
-			}
-			else if(comboGPS.SelectedIndex == 3)
-			{
-				size += (64 + 16);
-			}
-
-			int maxTime = timeMax.Value.Hour * 60 * 60 + timeMax.Value.Minute * 60 + timeMax.Value.Second;
-
-			//TIME
-			if (comboTime.SelectedIndex == 1)
-			{
-				size += (int) Math.Ceiling((Math.Log10(maxTime)/Math.Log10(2))) ;
-			}
-			else if (comboTime.SelectedIndex == 2)
-			{
-				size += (int)Math.Ceiling((Math.Log10(maxTime*10) / Math.Log10(2)));
-			}
-			else if (comboTime.SelectedIndex == 3)
-			{
-				size += (int)Math.Ceiling((Math.Log10(maxTime*100) / Math.Log10(2)));
-			}
-			else if (comboTime.SelectedIndex == 4)
-			{
-				size += (int)Math.Ceiling((Math.Log10(maxTime*1000) / Math.Log10(2)));
-			}
-			int sep = 0;
-
-			if (comboSepar.SelectedIndex == 1)
-			{
-				sep = 1;
-			}
-			else if (comboSepar.SelectedIndex == 2)
-			{
-				sep = 1;
-			}
-			else if (comboSepar.SelectedIndex == 3)
-			{
-				sep = 2;
-			}
-			if(comboGPS.SelectedIndex != 0)
-			{
-				size += sep;
-			}
-			if (comboTime.SelectedIndex != 0)
-			{
-				size += sep;
-			}
-
-			foreach (NumericUpDown num in numDataList)
-			{
-				size += (int) num.Value + sep;
-			}
-
-			return size;
+			if (div == 0)
+				return 0;
+			return size / div;
 		}
 
 
 		public int getFactor()
 		{
-			return (int) Math.Pow(10, (comboTime.SelectedIndex-1));
+			//return (int) Math.Pow(10, (comboTime.SelectedIndex-1));
+			return 8;
+		}
+
+		/*FRAME TYPE
+		 * 0000 0	0: RIEN
+		 * 0001 1	1: GPS
+		 * 0010 2	2: TEMPS DEPUIS LANCEMENT (ms)
+		 * 0011 3	3: TEMPS DEPUIS LANCEMENT (ms) + GPS
+		 * 0100 4	4: UNIX TIME
+		 * 0101 5	5: UNIX TIME + GPS
+		 * 0110 6	6: UNIX TIME + TEMPS DEPUIS LANCEMENT (ms)
+		 * 0111 7	7: UNIX TIME + TEMPS DEPUIS LANCEMENT (ms) + GPS
+		 * 1000 8	8: DATA
+		 * 1001 9	9: DATA + GPS
+		 * 1010 10	A: DATA + TEMPS DEPUIS LANCEMENT (ms)
+		 * 1011 11	B: DATA + TEMPS DEPUIS LANCEMENT (ms) + GPS
+		 * 1100 12	C: DATA + UNIX TIME
+		 * 1101 13	D: DATA + UNIX TIME + GPS
+		 * 1110 14	E: DATA + UNIX TIME + TEMPS DEPUIS LANCEMENT (ms)
+		 * 1111 15  F: DATA + UNIX TIME + TEMPS DEPUIS LANCEMENT (ms) + GPS
+		 */
+
+		public void addFrameConfig()
+		{
+			comboBoxFrameList.Add(new ComboBox());
+			comboBoxFrameList.Last().Size = new Size(248, 21);
+			comboBoxFrameList.Last().Items.Clear();
+			comboBoxFrameList.Last().Items.Add("Rien"); //rendre plus utile
+			comboBoxFrameList.Last().Items.Add("GPS");
+			comboBoxFrameList.Last().Items.Add("Time Since Start");
+			comboBoxFrameList.Last().Items.Add("Time Since Start + GPS");
+			comboBoxFrameList.Last().Items.Add("UNIX TIME");
+			comboBoxFrameList.Last().Items.Add("UNIX TIME + GPS");
+			comboBoxFrameList.Last().Items.Add("UNIX TIME + Time Since Start");
+			comboBoxFrameList.Last().Items.Add("UNIX TIME + Time Since Start + GPS");
+			comboBoxFrameList.Last().Items.Add("DATA");
+			comboBoxFrameList.Last().Items.Add("DATA + GPS");
+			comboBoxFrameList.Last().Items.Add("DATA + Time Since Start");
+			comboBoxFrameList.Last().Items.Add("DATA + Time Since Start + GPS");
+			comboBoxFrameList.Last().Items.Add("DATA + UNIX TIME");
+			comboBoxFrameList.Last().Items.Add("DATA + UNIX TIME + GPS");
+			comboBoxFrameList.Last().Items.Add("DATA + UNIX TIME + Time Since Start");
+			comboBoxFrameList.Last().Items.Add("DATA + UNIX TIME + Time Since Start + GPS");
+			comboBoxFrameList.Last().DropDownStyle = ComboBoxStyle.DropDownList;
+			comboBoxFrameList.Last().SelectedIndexChanged += new System.EventHandler(this.comboFrame_SelectedIndexChanged);
+			this.flpFrame.Controls.Add(comboBoxFrameList.Last());
+
 		}
 
 
@@ -242,7 +263,7 @@ namespace TelemetriePITA
 			Label newlabelData = new System.Windows.Forms.Label();
 			numDataList.Last().ValueChanged += new System.EventHandler(UpdateData);
 
-			this.flowLayoutPanel1.Controls.Add(panelDataList.Last());
+			this.flpData.Controls.Add(panelDataList.Last());
 
 			panelDataList.Last().Controls.Add(numDataList.Last());
 			panelDataList.Last().Controls.Add(textDataList.Last());
@@ -391,10 +412,14 @@ namespace TelemetriePITA
 
 		public byte[] getPattern()
 		{
-			byte[] b = new byte[3];
-			b[0] = 9;
-			b[1] = 9;
-			b[2] = 11;
+			byte[] b = new byte[0];
+			foreach (ComboBox c in comboBoxFrameList)
+			{
+				if (c.SelectedIndex >= 0) 
+				{
+					b = b.Append((byte)(c.SelectedIndex)).ToArray();
+				}
+			}
 			return b;
 		}
 
@@ -430,10 +455,6 @@ namespace TelemetriePITA
 			e.Cancel = true;
 			this.Hide();
 			saveData("lastConf.xml");
-
-
-
-
 		}
 
 		public void recoverData(string filename)
@@ -446,11 +467,13 @@ namespace TelemetriePITA
 			comboCR.SelectedIndex = obj.CR;
 			comboSF.SelectedIndex = obj.SF;
 			
-			comboGPS.SelectedIndex = obj.GPS;
-			comboTime.SelectedIndex = obj.precision;
-			comboSepar.SelectedIndex = obj.sep;
+			//comboGPS.SelectedIndex = obj.GPS;
+			//comboTime.SelectedIndex = obj.precision;
+			//comboSepar.SelectedIndex = obj.sep;
+
 			TimeSpan t = TimeSpan.FromSeconds(obj.time);
-			timeMax.Value = new DateTime(2020,1,1,t.Hours, t.Minutes, t.Seconds);
+
+			//timeMax.Value = new DateTime(2020,1,1,t.Hours, t.Minutes, t.Seconds);
 			comboFreq.Text = obj.freq+"";
 			comboBand.SelectedIndex = obj.bandwitdh;
 			numericPTX.Value = (decimal) obj.PTX;
@@ -458,8 +481,6 @@ namespace TelemetriePITA
 			numericGRX.Value = (decimal)obj.GRX;
 			numericMargin.Value = (decimal)obj.margin;
 			comboModule.SelectedIndex = obj.Module;
-
-
 
 			foreach (ConfigData d in obj.datas)
 			{
@@ -469,6 +490,13 @@ namespace TelemetriePITA
 				textDataUnitList.Last().Text = d.unit;
 				textDataOffsetList.Last().Text = d.offset;
 				checkBoxList.Last().Checked = d.signed;
+			}
+
+			foreach (byte b in obj.framePattern)
+			{
+				addFrameConfig();
+				//comboBoxFrameList.Last().SelectedItem = b;
+				comboBoxFrameList.Last().SelectedIndex = b;
 			}
 
 
@@ -486,43 +514,19 @@ namespace TelemetriePITA
 			obj.CR = comboCR.SelectedIndex;
 			obj.SF = comboSF.SelectedIndex;
 			obj.Module = comboModule.SelectedIndex;
-			obj.GPS = comboGPS.SelectedIndex;
-			obj.precision = comboTime.SelectedIndex;
-			obj.sep = comboSepar.SelectedIndex;
-			obj.time = timeMax.Value.Hour * 60 * 60 + timeMax.Value.Minute * 60 + timeMax.Value.Second;
+			//obj.GPS = comboGPS.SelectedIndex;
+			//obj.precision = comboTime.SelectedIndex;
+			//obj.sep = comboSepar.SelectedIndex;
+			//obj.time = timeMax.Value.Hour * 60 * 60 + timeMax.Value.Minute * 60 + timeMax.Value.Second;
 			obj.freq = Double.Parse(comboFreq.Text);
 			obj.bandwitdh = comboBand.SelectedIndex;
 			obj.PTX = (int)numericPTX.Value;
 			obj.GTX = (double)numericGTX.Value;
 			obj.GRX = (double)numericGRX.Value;
 			obj.margin = (double)numericMargin.Value;
-			obj.framePattern = new byte[5];
+			obj.framePattern = getPattern();
 
-			if (comboGPS.SelectedIndex == 0) 
-			{
-				obj.framePattern = new byte[1];
-				obj.framePattern[0] = DATA;
-			}else if (comboGPS.SelectedIndex == 1)
-			{
-				obj.framePattern = new byte[5];
-				obj.framePattern[0] = DATA;
-				obj.framePattern[1] = DATA;
-				obj.framePattern[2] = DATA;
-				obj.framePattern[3] = DATA;
-				obj.framePattern[4] = DATA | GPS;
-			}
-			else if (comboGPS.SelectedIndex == 2)
-			{
-				obj.framePattern = new byte[3];
-				obj.framePattern[0] = 8;
-				obj.framePattern[1] = 8;
-				obj.framePattern[2] = 9;
-			}
-			else if (comboGPS.SelectedIndex == 3)
-			{
-				obj.framePattern = new byte[1];
-				obj.framePattern[0] = 9;
-			}
+			
 			int i = 0;
 			var list = new List<ConfigData>();
 			foreach (NumericUpDown num in numDataList)
@@ -562,12 +566,34 @@ namespace TelemetriePITA
 
 		private void button1_Click_1(object sender, EventArgs e)
 		{
-			this.flowLayoutPanel1.Controls.RemoveAt(flowLayoutPanel1.Controls.Count-1);
+			this.flpData.Controls.RemoveAt(flpData.Controls.Count-1);
 			panelDataList.RemoveAt(panelDataList.Count-1);
 			numDataList.RemoveAt(panelDataList.Count-1);
 			textDataList.RemoveAt(panelDataList.Count-1);
 			textDataUnitList.RemoveAt(panelDataList.Count-1);
 			textDataOffsetList.RemoveAt(panelDataList.Count - 1);
+		}
+
+		private void addFrame_Click(object sender, EventArgs e)
+		{
+			addFrameConfig();
+			getPattern();
+		}
+
+		private void removeFrame_Click(object sender, EventArgs e)
+		{
+			if (flpFrame.Controls.Count > 0)
+			{
+				comboBoxFrameList.Last().SelectedIndexChanged -= new System.EventHandler(this.comboFrame_SelectedIndexChanged);
+				this.flpFrame.Controls.RemoveAt(flpFrame.Controls.Count - 1);
+				comboBoxFrameList.Remove(comboBoxFrameList.Last());
+				UpdateData(sender, e);
+			}
+		}
+
+		private void comboFrame_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateData(sender, e);
 		}
 	}
 }

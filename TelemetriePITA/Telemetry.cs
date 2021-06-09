@@ -18,7 +18,7 @@ namespace TelemetriePITA
 		public Telemetry()
 		{
 			InitializeComponent();
-			init();
+			init("lastConf.xml");
 		}
 
 		public FrameDecoder fdecoder;
@@ -27,11 +27,16 @@ namespace TelemetriePITA
 		bool stop = false;
 		int dataNbr;
 		
-		public void init()
+		public void init(string confFile)
 		{
-			
+			stop = true;
+			if(readThread!=null)
+				if(readThread.IsAlive)
+					readThread.Join();
 			plots = new List<ScottPlot.PlottableSignalXY>();
 			fplots = new List<ScottPlot.FormsPlot>();
+
+
 			csv = new StringBuilder();
 
 			foreach (string s in System.IO.Ports.SerialPort.GetPortNames())
@@ -40,7 +45,7 @@ namespace TelemetriePITA
 			}
 
 			
-			conf = new Config("lastConf.xml");
+			conf = new Config(confFile);
 			sizes = new int[conf.getDataNbr()];
 			signed = new Boolean[conf.getDataNbr()];
 			offsetA = new double[conf.getDataNbr()];
@@ -60,6 +65,8 @@ namespace TelemetriePITA
 
 		public void initPlot(int plotNbr)
 		{
+
+			tableLayoutPanel1.Controls.Clear();
 			tableLayoutPanel1.ColumnCount = (int) Math.Ceiling(Math.Sqrt((4/3)*plotNbr));
 			tableLayoutPanel1.RowCount = (int) Math.Ceiling((double)plotNbr/(double)tableLayoutPanel1.ColumnCount);
 
@@ -415,7 +422,7 @@ namespace TelemetriePITA
 
 		private void enregistrerSousToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			openFileDialog1.ShowDialog();
+			
 		}
 
 		private void toolStripStatusLabel12_Click(object sender, EventArgs e)
@@ -442,6 +449,28 @@ namespace TelemetriePITA
 		{
 			stop = true;
 			
+		}
+
+		private void ouvrirToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			fdOpenConfig.ShowDialog();
+		}
+
+		private void fdConfigSave_FileOk(object sender, CancelEventArgs e)
+		{
+			OpenFileDialog fileDialog = (OpenFileDialog)sender;
+			conf.saveData(fileDialog.FileName);
+		}
+
+		private void sauvegarderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			fdConfigSave.ShowDialog();
+		}
+
+		private void fdOpenConfig_FileOk(object sender, CancelEventArgs e)
+		{
+			OpenFileDialog fileDialog = (OpenFileDialog)sender;
+			init(fileDialog.FileName);
 		}
 	}
 }

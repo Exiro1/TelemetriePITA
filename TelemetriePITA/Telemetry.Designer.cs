@@ -74,6 +74,8 @@ namespace TelemetriePITA
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.fdConfigSave = new System.Windows.Forms.OpenFileDialog();
+			this.fdOpenConfig = new System.Windows.Forms.OpenFileDialog();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -110,19 +112,21 @@ namespace TelemetriePITA
 			// ouvrirToolStripMenuItem
 			// 
 			this.ouvrirToolStripMenuItem.Name = "ouvrirToolStripMenuItem";
-			this.ouvrirToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+			this.ouvrirToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
 			this.ouvrirToolStripMenuItem.Text = "Ouvrir";
+			this.ouvrirToolStripMenuItem.Click += new System.EventHandler(this.ouvrirToolStripMenuItem_Click);
 			// 
 			// sauvegarderToolStripMenuItem
 			// 
 			this.sauvegarderToolStripMenuItem.Name = "sauvegarderToolStripMenuItem";
-			this.sauvegarderToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-			this.sauvegarderToolStripMenuItem.Text = "Enregistrer";
+			this.sauvegarderToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+			this.sauvegarderToolStripMenuItem.Text = "Enregistrer Configuration";
+			this.sauvegarderToolStripMenuItem.Click += new System.EventHandler(this.sauvegarderToolStripMenuItem_Click);
 			// 
 			// enregistrerSousToolStripMenuItem
 			// 
 			this.enregistrerSousToolStripMenuItem.Name = "enregistrerSousToolStripMenuItem";
-			this.enregistrerSousToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+			this.enregistrerSousToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
 			this.enregistrerSousToolStripMenuItem.Text = "Enregistrer sous...";
 			this.enregistrerSousToolStripMenuItem.Click += new System.EventHandler(this.enregistrerSousToolStripMenuItem_Click);
 			// 
@@ -436,6 +440,20 @@ namespace TelemetriePITA
 			this.openFileDialog1.FileName = "signal";
 			this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
 			// 
+			// fdConfigSave
+			// 
+			this.fdConfigSave.CheckFileExists = false;
+			this.fdConfigSave.DefaultExt = "xml";
+			this.fdConfigSave.FileName = "signal";
+			this.fdConfigSave.FileOk += new System.ComponentModel.CancelEventHandler(this.fdConfigSave_FileOk);
+			// 
+			// fdOpenConfig
+			// 
+			this.fdOpenConfig.CheckFileExists = false;
+			this.fdOpenConfig.DefaultExt = "csv";
+			this.fdOpenConfig.FileName = "signal";
+			this.fdOpenConfig.FileOk += new System.ComponentModel.CancelEventHandler(this.fdOpenConfig_FileOk);
+			// 
 			// Telemetry
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -510,5 +528,7 @@ namespace TelemetriePITA
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox comboBox1;
 		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.OpenFileDialog fdConfigSave;
+		private System.Windows.Forms.OpenFileDialog fdOpenConfig;
 	}
 }

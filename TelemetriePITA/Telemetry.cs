@@ -422,7 +422,7 @@ namespace TelemetriePITA
 
 		private void enregistrerSousToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			
+			fdSaveData.ShowDialog();
 		}
 
 		private void toolStripStatusLabel12_Click(object sender, EventArgs e)

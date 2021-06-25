@@ -73,7 +73,7 @@ namespace TelemetriePITA
 			this.button2 = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.fdSaveData = new System.Windows.Forms.OpenFileDialog();
 			this.fdConfigSave = new System.Windows.Forms.OpenFileDialog();
 			this.fdOpenConfig = new System.Windows.Forms.OpenFileDialog();
 			this.menuStrip1.SuspendLayout();
@@ -127,7 +127,7 @@ namespace TelemetriePITA
 			// 
 			this.enregistrerSousToolStripMenuItem.Name = "enregistrerSousToolStripMenuItem";
 			this.enregistrerSousToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-			this.enregistrerSousToolStripMenuItem.Text = "Enregistrer sous...";
+			this.enregistrerSousToolStripMenuItem.Text = "Enregistrer Data";
 			this.enregistrerSousToolStripMenuItem.Click += new System.EventHandler(this.enregistrerSousToolStripMenuItem_Click);
 			// 
 			// configToolStripMenuItem
@@ -433,12 +433,12 @@ namespace TelemetriePITA
 			this.textBox1.Size = new System.Drawing.Size(96, 100);
 			this.textBox1.TabIndex = 0;
 			// 
-			// openFileDialog1
+			// fdSaveData
 			// 
-			this.openFileDialog1.CheckFileExists = false;
-			this.openFileDialog1.DefaultExt = "csv";
-			this.openFileDialog1.FileName = "signal";
-			this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+			this.fdSaveData.CheckFileExists = false;
+			this.fdSaveData.DefaultExt = "csv";
+			this.fdSaveData.FileName = "signal";
+			this.fdSaveData.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
 			// 
 			// fdConfigSave
 			// 
@@ -520,7 +520,7 @@ namespace TelemetriePITA
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
 		private System.Windows.Forms.ToolStripStatusLabel toolRate;
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		private System.Windows.Forms.OpenFileDialog fdSaveData;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel9;
 		private System.Windows.Forms.ToolStripStatusLabel statusDataRate;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
